@@ -5,5 +5,6 @@ module.exports = {
     require('./endClub'),
     require('./nominate'),
     require('./taco'),
+    require('./crab'),
   ],
 };

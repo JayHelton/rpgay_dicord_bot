@@ -2,6 +2,26 @@ module.exports = function buildDB(db) {
   const clubSessionCollection = db.collection('club_sessions');
   const eventsCollection = db.collection('events');
   const tacoCollection = db.collection('tacos');
+  const crabsCollection = db.collection('crabs');
+
+  async function updateCrabs(doc) {
+    const existing = await crabsCollection.findOne({ uid: doc.uid });
+    if (existing) {
+      return crabsCollection.findOneAndUpdate(
+        { uid: doc.uid },
+        { $inc: { crabs: doc.crabs } },
+        { returnOriginal: false }
+      );
+    }
+    return crabsCollection.findOneAndUpdate(
+      { uid: doc.uid },
+      { $set: doc },
+      {
+        upsert: true,
+        returnOriginal: false,
+      }
+    );
+  }
 
   async function updateTacos(doc) {
     const existing = await tacoCollection.findOne({ uid: doc.uid });
@@ -75,5 +95,6 @@ module.exports = function buildDB(db) {
     //  removeClubNomination,
     insertEvent,
     updateTacos,
+    updateCrabs,
   };
 };

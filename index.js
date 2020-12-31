@@ -27,6 +27,7 @@ MongoClient.connect(MONGO_URI, function (err, db) {
   const dbService = buildDb(db.db('discord'));
 
   bot.on('message', (msg) => {
+    console.log(msg.content);
     const config = mentionedBot({ state, bot, msg, db: dbService });
 
     if (!config) return;
